@@ -19,7 +19,7 @@ spec:
   handler: handler
   image: mlrun/mlrun
   kind: nuclio:serving
-  requirements: []
+  requirements: [tensorflow==1.14, keras==2.3.1, pillow]
   env:
     MODEL_CLASS: TFModel
     ENABLE_EXPLAINER: False
