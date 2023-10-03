@@ -19,6 +19,7 @@ jobs:
       id: matrix
       run: |
         matrix=$(find . -name "*.ipynb" -type f)
+        echo ${matrix}
         echo "nb_matrix=${matrix}" >> $GITHUB_OUTPUT
 
 
