@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      nb_matrix: ${{ steps.matrix.outputs.nb_matrix }}
+      nb_matrix: ${ steps.matrix.outputs.nb_matrix }
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
