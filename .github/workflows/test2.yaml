@@ -21,5 +21,6 @@ jobs:
 
     - name: Use Notebook Matrix
       run: |
-        echo "Matrix: ${{ steps.matrix.outputs.matrix }}"
+        matrix="${{ steps.matrix.outputs.matrix }}"
+        echo "Matrix: $matrix"
         # You can use the matrix variable in your subsequent steps as needed
