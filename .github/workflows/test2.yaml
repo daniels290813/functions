@@ -1,12 +1,15 @@
 name: Notebook Matrix
 
 on:
+  workflow_dispatch:
   push:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    outputs:
+      output1: ${{ steps.matrix.outputs.nb_matrix }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -16,9 +19,7 @@ jobs:
       id: matrix
       run: |
         matrix=$(find . -name "*.ipynb" -type f)
-        echo "::set-output name=matrix::${matrix}"
-#    outputs:
-#      matrix: ${{ steps.set-matrix.outputs.matrix }}
+        echo "nb-matrix=${{  matrix  }}" >> $GITHUB_OUTPUT
 
 
   use-matrix:
@@ -27,7 +28,7 @@ jobs:
     steps:
     - name: Use Notebook Matrix
       run: |
-        matrix="${{ needs.build.outputs.matrix }}"
+        matrix="${{ needs.build.outputs.output1 }}"
         echo "Matrix: $matrix"
         
         for notebook in $(echo "$matrix" | jq -r '.[]'); do
