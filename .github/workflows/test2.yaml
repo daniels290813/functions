@@ -17,12 +17,12 @@ jobs:
     - name: Generate Notebook Matrix
       id: matrix
       run: |        
-        matrix=$((
+        nb_matrix=$((
             echo '{ "notebooks" : ['
             find . -name "*.ipynb" -print | sed 's,/*[^/]\+/*$,,' | sort | uniq | sed 's/.*/"&"/' 
             echo " ]}"
           ) )
-        echo $matrix
+        echo nb_matrix
 
 
   use-matrix:
