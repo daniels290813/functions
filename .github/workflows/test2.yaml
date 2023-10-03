@@ -16,14 +16,13 @@ jobs:
 
     - name: Generate Notebook Matrix
       id: matrix
-      run: |
-        echo "nb_matrix=$(find . -name "*.ipynb" -type f)"
-        
+      run: |        
         matrix=$((
             echo '{ "notebooks" : ['
-            find . -name "*.ipynb" -type f | sort | uniq
+            find . -name "*.ipynb" -print | sed 's,/*[^/]\+/*$,,' | sort | uniq | sed 's/.*/"&"/' 
             echo " ]}"
-          ) | jq 'del(.[][] | select(. == ""))'  -c)
+          ) )
+        echo $matrix
 
 
   use-matrix:
