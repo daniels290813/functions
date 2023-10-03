@@ -22,7 +22,7 @@ jobs:
         echo "{matrix}=${matrix}" >> $GITHUB_OUTPUT
         
     outputs:
-      matrix: ${{matrix}}
+      matrix: ${{  steps.set-matrix.outputs.matrix  }}
 
   run_notebooks:
     needs: build_strategy_matrix
