@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      output1: ${{ steps.matrix.outputs.nb_matrix }}
+      nb_matrix: ${{ steps.matrix.outputs.nb_matrix }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -19,7 +19,7 @@ jobs:
       id: matrix
       run: |
         matrix=$(find . -name "*.ipynb" -type f)
-        echo "nb-matrix=${{  matrix  }}" >> $GITHUB_OUTPUT
+        echo "nb_matrix=${{  matrix  }}" >> $GITHUB_OUTPUT
 
 
   use-matrix:
@@ -28,7 +28,7 @@ jobs:
     steps:
     - name: Use Notebook Matrix
       run: |
-        matrix="${{ needs.build.outputs.output1 }}"
+        matrix="${{ needs.build.outputs.nb_matrix }}"
         echo "Matrix: $matrix"
         
         for notebook in $(echo "$matrix" | jq -r '.[]'); do
