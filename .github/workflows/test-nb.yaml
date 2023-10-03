@@ -23,6 +23,17 @@ jobs:
     outputs:
       matrix: "my_matrix"
 
+  run_notebooks:
+    needs: build_strategy_matrix
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{fromJson(needs.build_strategy_matrix.outputs.matrix)}}
+    steps:
+      - name: run-notebooks
+        run: |
+          jupyter nbconvert --to notebook --execute ${{ matrix.package }} --ExecutePreprocessor.kernel_name=python3 --output=${{ matrix.package }}
+      
+      
 
 
 
