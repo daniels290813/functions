@@ -18,6 +18,12 @@ jobs:
       id: matrix
       run: |
         echo "nb_matrix=$(find . -name "*.ipynb" -type f)"
+        
+        matrix=$((
+            echo '{ "notebooks" : ['
+            find . -name "*.ipynb" -type f | sort | uniq
+            echo " ]}"
+          ) | jq 'del(.[][] | select(. == ""))'  -c)
 
 
   use-matrix:
@@ -27,9 +33,9 @@ jobs:
     - name: Use Notebook Matrix
       run: |
         matrix="${{ fromJSON(needs.build.outputs.nb_matrix) }}"
-        echo "Matrix: $matrix"
+        echo "Matrix notebooks: ${{  matrix.notebooks  }}"
         
-        for notebook in $(echo "$matrix" | jq -r '.[]'); do
+        for notebook in $(echo ${{  matrix.notebooks  }} | jq -r '.[]'); do
                     echo "Found notebook: $notebook"
                     # Your further processing here
                 done
