@@ -20,7 +20,7 @@ jobs:
     - name: Generate Notebook Matrix
       id: matrix
       run: |
-        find . -name "*.ipynb" | jq -R -s 'split("\n")[:-1]' > notebook_matrix.json
+        find . -name "*.ipynb" | jq -R -s 'split("\n") | map(select(length > 0))' > notebook_matrix.json
         echo "::set-output name=matrix::$(cat notebook_matrix.json)"
 
     - name: Use Notebook Matrix
