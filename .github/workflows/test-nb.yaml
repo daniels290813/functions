@@ -1,0 +1,27 @@
+name: Testing Jupyter Notebooks
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build_strategy_matrix:
+    runs-on: ubuntu-latest
+    # let's not run this on every fork, change to your fork when developing
+    if: github.repository == 'mlrun/functions' || github.event_name == 'workflow_dispatch'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      id: set-matrix
+
+      run: |
+        git fetch --no-tags --prune --depth=1 origin ${{ github.base_ref }}:${{ github.base_ref }} \
+        echo ${{ github.base_ref }}:${{ github.base_ref }} \ 
+        echo $(find . -name '*ipynb')
+        
+    outputs:
+      matrix: "my_matrix"
+
+
+
+
+
