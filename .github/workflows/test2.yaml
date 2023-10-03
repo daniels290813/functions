@@ -27,5 +27,5 @@ jobs:
     steps:
     - name: Use Notebook Matrix
       run: |
-        matrix="${{ build.steps.matrix.outputs.matrix }}"
+        matrix="${{ needs.build.outputs.matrix }}"
         echo "Matrix: $matrix"
