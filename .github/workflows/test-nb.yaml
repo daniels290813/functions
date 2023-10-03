@@ -21,7 +21,7 @@ jobs:
         echo "${matrix}"
         
     outputs:
-      matrix: ${matrix}
+      matrix: ${{matrix}}
 
   run_notebooks:
     needs: build_strategy_matrix
