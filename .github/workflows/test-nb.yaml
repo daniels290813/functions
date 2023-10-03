@@ -17,29 +17,7 @@ jobs:
     - name: Build Matrix
       id: set-matrix
       run: |
-        notebooks=$(find . -name "*.ipynb") \
-        # Initialize an empty JSON array \
-        matrix="[" \
-        first=true \
-        
-        # Loop through each notebook file \
-        for notebook in $notebooks; do \
-            # Check if it's the first file in the matrix \
-            if [ "$first" = true ]; then \ 
-                first=false \
-            else \
-                # Add a comma separator between elements in the matrix \
-                matrix="${matrix}," \
-            fi \
-        
-            # Add the filename to the matrix in JSON format \
-            matrix="${matrix}\"${notebook}\"" \ 
-        done \
-        
-        # Close the JSON array \
-        matrix="${matrix}]" \
-        
-        # Print the matrix \
+        matrix=$(find . -name "*.ipynb" | jq -R -s 'split("\n")[:-1]')
         echo "${matrix}"
         
     outputs:
