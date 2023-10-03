@@ -19,7 +19,7 @@ jobs:
       run: |
         matrix=$(find . -name "*.ipynb" | jq -R -s 'split("\n")[:-1]')
         echo "${matrix}"
-        echo "::set-output name=matrix::$matrix"
+        echo "{matrix}=${matrix}"
         
     outputs:
       matrix: ${{matrix}}
