@@ -29,3 +29,8 @@ jobs:
       run: |
         matrix="${{ needs.build.outputs.matrix }}"
         echo "Matrix: $matrix"
+        
+        for notebook in $(echo "$matrix" | jq -r '.[]'); do
+                    echo "Found notebook: $notebook"
+                    # Your further processing here
+                done
