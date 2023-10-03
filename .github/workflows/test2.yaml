@@ -20,7 +20,7 @@ jobs:
       run: |
         matrix=$(find . -name "*.ipynb" -type f)
         echo ${matrix}
-        echo "nb_matrix=${matrix}" >> $GITHUB_OUTPUT
+        echo "nb_matrix=${{toJSON(matrix)}}" >> $GITHUB_OUTPUT
 
 
   use-matrix:
@@ -29,7 +29,7 @@ jobs:
     steps:
     - name: Use Notebook Matrix
       run: |
-        matrix="${{ needs.build.outputs.nb_matrix }}"
+        matrix="${{ fromJSON(needs.build.outputs.nb_matrix) }}"
         echo "Matrix: $matrix"
         
         for notebook in $(echo "$matrix" | jq -r '.[]'); do
