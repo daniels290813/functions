@@ -9,7 +9,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Install jq
       run: |
@@ -22,6 +22,7 @@ jobs:
       run: |
         find . -name "*.ipynb" | jq -R -s 'split("\n")[:-1]' > notebook_matrix.json
         echo "::set-output name=matrix::$(cat notebook_matrix.json)"
+        echo "{matrix}=$(cat notebook_matrix.json)" >> $GITHUB_OUTPUT
 
     - name: Use Notebook Matrix
       run: |
