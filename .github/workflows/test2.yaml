@@ -2,6 +2,8 @@ name: Notebook Matrix
 
 on:
   push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -9,19 +11,13 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
-
-    - name: Install jq
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y jq
-      # or use 'brew install jq' for macOS
+      uses: actions/checkout@v2
 
     - name: Generate Notebook Matrix
       id: matrix
       run: |
-        find . -name "*.ipynb" | jq -R -s 'split("\n") | map(select(length > 0))' > notebook_matrix.json
-        echo "::set-output name=matrix::$(cat notebook_matrix.json)"
+        matrix=$(find . -name "*.ipynb" -type f)
+        echo "::set-output name=matrix::${matrix}"
 
     - name: Use Notebook Matrix
       run: |
