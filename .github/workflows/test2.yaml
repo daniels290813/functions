@@ -15,12 +15,9 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Generate Notebook Matrix
-
       id: matrix
       run: |
-        matrix=$(find . -name "*.ipynb" -type f)
-        echo ${matrix}
-        echo "nb_matrix=${{matrix}}" >> $GITHUB_OUTPUT
+        echo "nb_matrix=$(find . -name "*.ipynb" -type f)"
 
 
   use-matrix:
