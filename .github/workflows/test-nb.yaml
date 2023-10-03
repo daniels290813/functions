@@ -11,8 +11,9 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-      id: set-matrix
 
+    - name: Build Matrix
+      id: set-matrix
       run: |
         git fetch --no-tags --prune --depth=1 origin ${{ github.base_ref }}:${{ github.base_ref }} \
         echo ${{ github.base_ref }}:${{ github.base_ref }} \ 
