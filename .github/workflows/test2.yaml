@@ -12,7 +12,7 @@ jobs:
       nb_matrix: ${ steps.matrix.outputs.nb_matrix }
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
     - name: Generate Notebook Matrix
       id: matrix
@@ -21,17 +21,18 @@ jobs:
             echo '{ "notebooks" : ['
             find . -name "*.ipynb" -print | sed 's,/*[^/]\+/*$,,' | sort | uniq | sed 's/.*/"&"/' 
             echo " ]}"
-          ))
+          ) )
         echo $nb_matrix
 
 
   use-matrix:
     runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJSON(needs.build.outputs.nb_matrix) }}
     needs: build
     steps:
     - name: Use Notebook Matrix
       run: |
-        matrix="${{ fromJSON(needs.build.outputs.nb_matrix) }}"
         echo "Matrix notebooks: ${{  matrix.notebooks  }}"
         
         for notebook in $(echo ${{  matrix.notebooks  }} | jq -r '.[]'); do
