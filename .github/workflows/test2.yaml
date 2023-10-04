@@ -23,7 +23,7 @@ jobs:
             echo " ]}"
           ) | jq 'del(.[][] | select(. == ""))'  -c)
         echo $nbmatrix
-        echo "nbmatrix=${nbmatrix}" > $GITHUB_OUTPUT
+        echo "nbmatrix={\"include\":$(echo nbmatrix)}" >> $GITHUB_OUTPUT
 
 
   check_matrix:
@@ -35,7 +35,7 @@ jobs:
           sudo npm install -g json2yaml
       - name: Check matrix definition
         run: |
-          nbmatrix='${{needs.build.outputs.nbmatrix.notebooks}}'
+          nbmatrix='${{needs.build.outputs.nbmatrix}}'
           echo nbmatrix
           echo nbmatrix | jq .
           echo nbmatrix | json2yaml
@@ -43,15 +43,15 @@ jobs:
   use-matrix:
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJson(needs.build.outputs.nbmatrix.notebooks)}}
+      matrix: ${{fromJson(needs.build.outputs.nbmatrix)}}
 
     needs: build
     steps:
     - name: Use Notebook Matrix
       run: |
-        echo "Matrix notebooks: ${{  matrix.notebooks  }}"
+        echo "Matrix notebooks: ${{  matrix.include  }}"
         
-        for notebook in $(echo ${{  matrix.notebooks  }} | jq -r '.[]'); do
+        for notebook in $(echo ${{  matrix.include  }} | jq -r '.[]'); do
                     echo "Found notebook: $notebook"
                     # Your further processing here
                 done
