@@ -34,16 +34,15 @@ jobs:
           sudo npm install -g json2yaml
       - name: Check matrix definition
         run: |
-          nb_matrix='${{ needs.build.outputs.nb_matrix }}'
-          echo nb_matrix
-          echo nb_matrix | jq .
-          echo nb_matrix | json2yaml
+          nb_matrix='${{needs.build.outputs.nb_matrix}}'
+          echo $nb_matrix
+          echo $nb_matrix | jq .
+          echo $nb_matrix | json2yaml
 
   use-matrix:
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{fromJson(needs.build.outputs.nb_matrix)}}
-
 
     needs: build
     steps:
