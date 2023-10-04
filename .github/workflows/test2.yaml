@@ -17,13 +17,9 @@ jobs:
     - name: Generate Notebook Matrix
       id: matrix
       run: |        
-        nbmatrix=$((
-            echo '{ "notebooks" : ['
-            echo $(find . -name "*.ipynb" -print | sed 's,/*[^/]\+/*$,,' | sort | uniq | sed 's/.*/"&"/'  | sed '$!s/.*/&,/')
-            echo " ]}"
-          ) | jq 'del(.[][] | select(. == ""))'  -c)
+        nbmatrix="{\"notebooks\":[$(find . -name "*.ipynb" -print | sed 's,/*[^/]\+/*$,,' | sort | uniq | sed 's/.*/"&"/'  | sed '$!s/.*/&,/')]}" 
         echo $nbmatrix
-        echo "nbmatrix={\"include\":$(echo nbmatrix)}" >> $GITHUB_OUTPUT
+        echo "nbmatrix=$(echo $nbmatrix)" >> $GITHUB_OUTPUT
 
   use-matrix:
     runs-on: ubuntu-latest
