@@ -25,6 +25,19 @@ jobs:
         echo $nb_matrix
         echo "::set-output name=nb_matrix::$nb_matrix"
 
+  check_matrix:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Install json2yaml
+        run: |
+          sudo npm install -g json2yaml
+      - name: Check matrix definition
+        run: |
+          nb_matrix='${{ needs.build.outputs.nb_matrix }}'
+          echo nb_matrix
+          echo nb_matrix | jq .
+          echo nb_matrix | json2yaml
 
   use-matrix:
     runs-on: ubuntu-latest
