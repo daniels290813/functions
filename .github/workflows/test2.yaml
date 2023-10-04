@@ -21,7 +21,7 @@ jobs:
             echo '{ "notebooks" : ['
             echo $(find . -name "*.ipynb" -print | sed 's,/*[^/]\+/*$,,' | sort | uniq | sed 's/.*/"&"/'  | sed '$!s/.*/&,/')
             echo " ]}"
-          ) | jq -c)
+          ) | jq 'del(.[][] | select(. == ""))'  -c)
         echo $nb_matrix
         echo "::set-output name=nb_matrix::$nb_matrix"
 
