@@ -21,7 +21,7 @@ jobs:
             echo '{ "notebooks" : ['
             find . -name "*.ipynb" -print | sed 's,/*[^/]\+/*$,,' | sort | uniq | sed 's/.*/"&"/'  | sed '$!s/.*/&,/'
             echo " ]}"
-          ) 
+          ) | jq -c
         echo $nb_matrix
 
 
