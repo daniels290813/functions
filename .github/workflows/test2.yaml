@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      nb_matrix: ${ steps.matrix.outputs.nb_matrix }
+      nbmatrix: ${ steps.matrix.outputs.nbmatrix }
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -17,13 +17,13 @@ jobs:
     - name: Generate Notebook Matrix
       id: matrix
       run: |        
-        nb_matrix=$((
+        nbmatrix=$((
             echo '{ "notebooks" : ['
             echo $(find . -name "*.ipynb" -print | sed 's,/*[^/]\+/*$,,' | sort | uniq | sed 's/.*/"&"/'  | sed '$!s/.*/&,/')
             echo " ]}"
           ) | jq 'del(.[][] | select(. == ""))'  -c)
-        echo $nb_matrix
-        echo "::set-output name=nb_matrix::$nb_matrix"
+        echo nbmatrix
+        echo "::set-output name=nbmatrix::nbmatrix"
 
   check_matrix:
     runs-on: ubuntu-latest
@@ -34,15 +34,15 @@ jobs:
           sudo npm install -g json2yaml
       - name: Check matrix definition
         run: |
-          nb_matrix='${{needs.build.outputs.nb_matrix}}'
-          echo $nb_matrix
-          echo $nb_matrix | jq .
-          echo $nb_matrix | json2yaml
+          nbmatrix=${{needs.build.outputs.nbmatrix}}
+          echo nbmatrix
+          echo nbmatrix | jq .
+          echo nbmatrix | json2yaml
 
   use-matrix:
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJson(needs.build.outputs.nb_matrix)}}
+      matrix: ${{fromJson(needs.build.outputs.nbmatrix)}}
 
     needs: build
     steps:
