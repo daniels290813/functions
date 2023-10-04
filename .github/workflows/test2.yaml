@@ -25,21 +25,6 @@ jobs:
         echo $nbmatrix
         echo "nbmatrix={\"include\":$(echo nbmatrix)}" >> $GITHUB_OUTPUT
 
-
-  check_matrix:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Install json2yaml
-        run: |
-          sudo npm install -g json2yaml
-      - name: Check matrix definition
-        run: |
-          nbmatrix='${{needs.build.outputs.nbmatrix}}'
-          echo nbmatrix
-          echo nbmatrix | jq .
-          echo nbmatrix | json2yaml
-
   use-matrix:
     runs-on: ubuntu-latest
     strategy:
