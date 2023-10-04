@@ -34,7 +34,7 @@ jobs:
           sudo npm install -g json2yaml
       - name: Check matrix definition
         run: |
-          nbmatrix=${{needs.build.outputs.nbmatrix}}
+          nbmatrix='${{needs.build.outputs.nbmatrix}}'
           echo nbmatrix
           echo nbmatrix | jq .
           echo nbmatrix | json2yaml
