@@ -23,7 +23,7 @@ jobs:
             echo " ]}"
           ) | jq -c)
         echo $nb_matrix
-        echo "::set-output name=nb_matrix::nb_matrix"
+        echo "::set-output name=nb_matrix::$nb_matrix"
 
 
   use-matrix:
