@@ -35,7 +35,7 @@ jobs:
           sudo npm install -g json2yaml
       - name: Check matrix definition
         run: |
-          nbmatrix='${{needs.build.outputs.nbmatrix}}'
+          nbmatrix='${{needs.build.outputs.nbmatrix.notebooks}}'
           echo nbmatrix
           echo nbmatrix | jq .
           echo nbmatrix | json2yaml
@@ -43,7 +43,7 @@ jobs:
   use-matrix:
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJson(needs.build.outputs.nbmatrix)}}
+      matrix: ${{fromJson(needs.build.outputs.nbmatrix.notebooks)}}
 
     needs: build
     steps:
