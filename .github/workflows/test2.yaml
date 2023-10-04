@@ -42,7 +42,9 @@ jobs:
   use-matrix:
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{ fromJSON(needs.build.outputs.nb_matrix) }}
+      matrix: ${{fromJson(needs.build.outputs.nb_matrix)}}
+
+
     needs: build
     steps:
     - name: Use Notebook Matrix
