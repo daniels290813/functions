@@ -22,8 +22,9 @@ jobs:
             echo $(find . -name "*.ipynb" -print | sed 's,/*[^/]\+/*$,,' | sort | uniq | sed 's/.*/"&"/'  | sed '$!s/.*/&,/')
             echo " ]}"
           ) | jq 'del(.[][] | select(. == ""))'  -c)
-        echo nbmatrix
-        echo "::set-output name=nbmatrix::nbmatrix"
+        echo $nbmatrix
+        echo "nbmatrix=${nbmatrix}" > $GITHUB_OUTPUT
+
 
   check_matrix:
     runs-on: ubuntu-latest
