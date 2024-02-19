@@ -18,7 +18,7 @@ platformVersion: 3.5.0
 spec:
   filename: load_dataset.py
   handler: load_dataset
-  image: mlrun/ml-models
+  image: mlrun/mlrun
   kind: job
   requirements: []
 url: ''
