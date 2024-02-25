@@ -130,6 +130,7 @@ def train(
     test_set: DataItem = None,
     train_test_split_size: float = None,
     random_state: int = None,
+    train_test_split_kwargs: dict = {},
     labels: dict = None,
     **kwargs,
 ):
@@ -176,6 +177,7 @@ def train(
                                     A random state seed to shuffle the data. For more information, see:
                                     https://scikit-learn.org/stable/glossary.html#term-random_state
                                     Notice that here we only pass integer values.
+    :param train_test_split_kwargs: Arguments for scikit-learn's train_test_split function.
     :param labels:                  Labels to log with the model
     :param kwargs:                  Here you can pass keyword arguments with prefixes,
                                     that will be parsed and passed to the relevant function, by the following prefixes:
@@ -242,7 +244,7 @@ def train(
     y = dataset[label_columns]
     if train_test_split_size:
         x_train, x_test, y_train, y_test = train_test_split(
-            x, y, test_size=train_test_split_size, random_state=random_state
+            x, y, test_size=train_test_split_size, random_state=random_state, **train_test_split_kwargs
         )
     else:
         x_train, y_train = x, y
